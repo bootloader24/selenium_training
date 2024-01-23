@@ -63,6 +63,20 @@ public class MyFirstTest {
     @Test
     public void myFirstTest() {
         driver.get("https://bing.com");
+
+        driver.manage().addCookie(new Cookie("test", "test"));
+        Cookie testCookie = driver.manage().getCookieNamed("test");
+        System.out.println("Print only testCookie: " + testCookie);
+        Set<Cookie> cookies = driver.manage().getCookies();
+        System.out.println("Print cookies: " + cookies);
+        driver.manage().deleteCookieNamed("test");
+        cookies = driver.manage().getCookies();
+        System.out.println("Print cookies after delete testCookie: " + cookies);
+        driver.manage().deleteAllCookies();
+        cookies = driver.manage().getCookies();
+        System.out.println("Print cookies after delete all cookies: " + cookies);
+
+
         driver.findElement(By.name("q")).sendKeys("selenium");
         driver.findElement(By.id("search_icon")).click();
         wait.until(titleContains("selenium"));
