@@ -3,10 +3,7 @@ package ru.training.selenium;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.HasCapabilities;
-import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -19,6 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
+import java.util.Set;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleContains;
 
@@ -37,12 +35,17 @@ public class MyFirstTest {
             if ("firefox".equals(browser)) {
                 FirefoxOptions options = new FirefoxOptions();
                 options.addArguments("-devtools");
-                options.setCapability("unexpectedAlertBehaviour", "dismiss");
+                //options.setCapability("unexpectedAlertBehaviour", "dismiss");
+                driver = new FirefoxDriver(options);
+            } else if ("firefox-nightly".equals(browser)) {
+                FirefoxOptions options = new FirefoxOptions();
+                options.setBinary("firefox-trunk"); // путь к исполняемому файлу
                 driver = new FirefoxDriver(options);
             } else if ("chrome".equals(browser)) {
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--start-fullscreen");
-                options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+                //options.addArguments("--start-fullscreen");  // запуск в полноэкранном режиме
+                //options.setPageLoadStrategy(PageLoadStrategy.EAGER);  // установка стратегии загрузки страниц
+                options.setBinary("/opt/browsers/chrome/1250748/chrome-linux/chrome"); // путь к исполняемому файлу
                 driver = new ChromeDriver(options);
             } else if ("edge".equals(browser)) {
                 EdgeOptions options = new EdgeOptions();
