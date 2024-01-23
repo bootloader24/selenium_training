@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.HasCapabilities;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -35,13 +36,17 @@ public class MyFirstTest {
         if (driver == null) {
             if ("firefox".equals(browser)) {
                 FirefoxOptions options = new FirefoxOptions();
-                driver = new FirefoxDriver(options);
+                options.addArguments("-devtools");
                 options.setCapability("unexpectedAlertBehaviour", "dismiss");
+                driver = new FirefoxDriver(options);
             } else if ("chrome".equals(browser)) {
                 ChromeOptions options = new ChromeOptions();
+                options.addArguments("--start-fullscreen");
+                options.setPageLoadStrategy(PageLoadStrategy.EAGER);
                 driver = new ChromeDriver(options);
             } else if ("edge".equals(browser)) {
                 EdgeOptions options = new EdgeOptions();
+                options.addArguments("--start-maximized");
                 driver = new EdgeDriver(options);
             } else {
                 throw new IllegalArgumentException(String.format("Unknown browser: %s", browser));
