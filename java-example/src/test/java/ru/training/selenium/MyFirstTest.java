@@ -4,10 +4,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileReader;
@@ -30,16 +34,21 @@ public class MyFirstTest {
 
         if (driver == null) {
             if ("firefox".equals(browser)) {
-                driver = new FirefoxDriver();
+                FirefoxOptions options = new FirefoxOptions();
+                driver = new FirefoxDriver(options);
+                options.setCapability("unexpectedAlertBehaviour", "dismiss");
             } else if ("chrome".equals(browser)) {
-                driver = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                driver = new ChromeDriver(options);
             } else if ("edge".equals(browser)) {
-                driver = new EdgeDriver();
+                EdgeOptions options = new EdgeOptions();
+                driver = new EdgeDriver(options);
             } else {
                 throw new IllegalArgumentException(String.format("Unknown browser: %s", browser));
             }
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            System.out.println(((HasCapabilities) driver).getCapabilities());
         }
     }
 
