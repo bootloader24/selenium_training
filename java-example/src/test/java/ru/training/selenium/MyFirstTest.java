@@ -22,6 +22,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.titleContains;
 
 public class MyFirstTest {
 
+    public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -31,33 +32,39 @@ public class MyFirstTest {
         properties.load(new FileReader(System.getProperty("target", "local.properties")));
         var browser = properties.getProperty("browser");
 
-        if (driver == null) {
-            if ("firefox".equals(browser)) {
-                FirefoxOptions options = new FirefoxOptions();
-                options.addArguments("-devtools");
-                //options.setCapability("unexpectedAlertBehaviour", "dismiss");
-                driver = new FirefoxDriver(options);
-            } else if ("firefox-nightly".equals(browser)) {
-                FirefoxOptions options = new FirefoxOptions();
-                options.setBinary("firefox-trunk"); // путь к исполняемому файлу
-                driver = new FirefoxDriver(options);
-            } else if ("chrome".equals(browser)) {
-                ChromeOptions options = new ChromeOptions();
-                //options.addArguments("--start-fullscreen");  // запуск в полноэкранном режиме
-                //options.setPageLoadStrategy(PageLoadStrategy.EAGER);  // установка стратегии загрузки страниц
-                options.setBinary("/opt/browsers/chrome/1250748/chrome-linux/chrome"); // путь к исполняемому файлу
-                driver = new ChromeDriver(options);
-            } else if ("edge".equals(browser)) {
-                EdgeOptions options = new EdgeOptions();
-                options.addArguments("--start-maximized");
-                driver = new EdgeDriver(options);
-            } else {
-                throw new IllegalArgumentException(String.format("Unknown browser: %s", browser));
-            }
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        if (tlDriver.get() != null) {
+            driver = tlDriver.get();
             wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            System.out.println(((HasCapabilities) driver).getCapabilities());
+            return;
         }
+
+        if ("firefox".equals(browser)) {
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("-devtools");
+            //options.setCapability("unexpectedAlertBehaviour", "dismiss");
+            driver = new FirefoxDriver(options);
+        } else if ("firefox-nightly".equals(browser)) {
+            FirefoxOptions options = new FirefoxOptions();
+            options.setBinary("firefox-trunk"); // путь к исполняемому файлу
+            driver = new FirefoxDriver(options);
+        } else if ("chrome".equals(browser)) {
+            ChromeOptions options = new ChromeOptions();
+            //options.addArguments("--start-fullscreen");  // запуск в полноэкранном режиме
+            //options.setPageLoadStrategy(PageLoadStrategy.EAGER);  // установка стратегии загрузки страниц
+            options.setBinary("/opt/browsers/chrome/1250748/chrome-linux/chrome"); // путь к исполняемому файлу
+            driver = new ChromeDriver(options);
+        } else if ("edge".equals(browser)) {
+            EdgeOptions options = new EdgeOptions();
+            options.addArguments("--start-maximized");
+            driver = new EdgeDriver(options);
+        } else {
+            throw new IllegalArgumentException(String.format("Unknown browser: %s", browser));
+        }
+        tlDriver.set(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        System.out.println(((HasCapabilities) driver).getCapabilities());
+        Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
     }
 
     @Test
@@ -76,15 +83,24 @@ public class MyFirstTest {
         cookies = driver.manage().getCookies();
         System.out.println("Print cookies after delete all cookies: " + cookies);
 
-
         driver.findElement(By.name("q")).sendKeys("selenium");
         driver.findElement(By.id("search_icon")).click();
         wait.until(titleContains("selenium"));
     }
 
-    @AfterEach
-    public void stop() {
-        driver.quit();
-        driver = null;
+    @Test
+    public void mySecondTest() {
+        driver.get("https://bing.com");
+        driver.findElement(By.name("q")).sendKeys("selenium");
+        driver.findElement(By.id("search_icon")).click();
+        wait.until(titleContains("selenium"));
+    }
+
+    @Test
+    public void myThirdTest() {
+        driver.get("https://bing.com");
+        driver.findElement(By.name("q")).sendKeys("selenium");
+        driver.findElement(By.id("search_icon")).click();
+        wait.until(titleContains("selenium"));
     }
 }
