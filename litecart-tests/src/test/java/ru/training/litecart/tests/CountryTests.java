@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import ru.training.litecart.common.CommonFunctions;
 import ru.training.litecart.model.CountriesData;
 
 import java.util.List;
@@ -27,18 +28,6 @@ public class CountryTests extends TestBase {
                 .collect(Collectors.toList());
     }
 
-    // метод проверки правильности сортировки списка строк
-    // возвращает true, если сортировка корректна
-    private boolean checkSorting(List<String> strings) {
-        String previous = "";
-        for (var current : strings) {
-            if (current.compareTo(previous) < 0)
-                return false;
-            previous = current;
-        }
-        return true;
-    }
-
     // метод проверки правильности сортировки геозон для каждой страны, где количество геозон > 0
     // возвращает true, если сортировка списков геозон всех стран корректна
     private boolean checkGeozonesSorting(List<CountriesData> countriesList) {
@@ -51,7 +40,7 @@ public class CountryTests extends TestBase {
                 List<String> geozonesNames = geozones.stream()
                         .map(geozone -> geozone.getAttribute("value"))
                         .toList();
-                result = checkSorting(geozonesNames) && result;
+                result = CommonFunctions.checkSorting(geozonesNames) && result;
             }
         }
         return result;
@@ -70,7 +59,7 @@ public class CountryTests extends TestBase {
                 .toList();
 
         // проверка, что страны расположены в алфавитном порядке:
-        Assertions.assertTrue(checkSorting(countriesNamesList));
+        Assertions.assertTrue(CommonFunctions.checkSorting(countriesNamesList));
         // проверка, что геозоны расположены в алфавитном порядке, для стран, у которых количество зон отлично от нуля:
         Assertions.assertTrue(checkGeozonesSorting(countriesList));
     }
