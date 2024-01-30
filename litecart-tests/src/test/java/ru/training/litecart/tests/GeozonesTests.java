@@ -8,6 +8,8 @@ import ru.training.litecart.common.CommonFunctions;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public class GeozonesTests extends TestBase {
 
     @Test
