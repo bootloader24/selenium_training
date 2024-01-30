@@ -8,6 +8,8 @@ import ru.training.litecart.common.CommonFunctions;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public class GeozonesTests extends TestBase {
 
     @Test
@@ -28,12 +30,12 @@ public class GeozonesTests extends TestBase {
         for (var link : zonesLinks) {
             app.driver.get(link);
             // после перехода на страницу с таблицей геозон извлекаем элементы выбранных в каждой строке зон:
-            var selects = app.driver.findElements(By.cssSelector("#table-zones td:nth-child(3) select > [selected]"));
+            var selects = app.driver.findElements(By.cssSelector("#table-zones td:nth-child(3)"));
 
             // из списка элементов с выбранными зонами формируем список строк с названиями зон
             List<String> geozonesList = selects
                     .stream()
-                    .map(WebElement::getText)
+                    .map(WebElement::getAccessibleName)
                     .toList();
             // проверяем, что список с названиями зон корректно отсортирован:
             Assertions.assertTrue(CommonFunctions.checkSorting(geozonesList));
