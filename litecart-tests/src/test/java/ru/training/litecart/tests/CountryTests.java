@@ -31,19 +31,20 @@ public class CountryTests extends TestBase {
     // метод проверки правильности сортировки геозон для каждой страны, где количество геозон > 0
     // возвращает true, если сортировка списков геозон всех стран корректна
     private boolean checkGeozonesSorting(List<CountriesData> countriesList) {
-        boolean result = true;
         for (var country : countriesList) {
             if (country.getZonesCount() > 0) {
                 app.driver.get(country.getCountryLink());
+                // ищем элементы 3-го столбца таблицы, исключая последнюю строку
                 List<WebElement> geozones = app.driver.findElements(By.
-                        cssSelector("#table-zones td:nth-child(3) [type=hidden]"));
+                        cssSelector("#table-zones tr:not(:last-child) td:nth-child(3)"));
+                // получаем текст из найденных элементов
                 List<String> geozonesNames = geozones.stream()
-                        .map(geozone -> geozone.getAttribute("value"))
+                        .map(WebElement::getText)
                         .toList();
-                result = CommonFunctions.checkSorting(geozonesNames) && result;
+                if (!CommonFunctions.checkSorting(geozonesNames)) return false;
             }
         }
-        return result;
+        return true;
     }
 
     @Test
