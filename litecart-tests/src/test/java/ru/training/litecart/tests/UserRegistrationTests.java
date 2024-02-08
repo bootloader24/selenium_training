@@ -28,8 +28,8 @@ public class UserRegistrationTests extends TestBase {
         regForm.findElement(By.name("address2")).sendKeys(CommonFunctions.randomString(10));
         regForm.findElement(By.name("postcode")).sendKeys("54321");
         regForm.findElement(By.name("city")).sendKeys("Dallas");
-        Select countrySelect = new Select(regForm.findElement(By.cssSelector("select[name=country_code]")));
-        countrySelect.selectByVisibleText("United States");
+        regForm.findElement(By.cssSelector("span.select2-selection__arrow")).click();
+        regForm.findElement(By.xpath("//span[@class='select2-results']//li[text()='United States']")).click();
         Select zoneSelect = new Select(regForm.findElement(By.cssSelector("select[name=zone_code]")));
         zoneSelect.selectByVisibleText("Texas");
         regForm.findElement(By.name("email")).sendKeys(email);
