@@ -6,17 +6,16 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.net.MalformedURLException;
 
-import java.time.Duration;
 import java.util.Properties;
 
 public class ApplicationManager {
 
     public WebDriver driver;
-    private LoginHelper session;
-    protected Properties properties;
+    public Properties properties;
 
-    public void init(String browser, Properties properties) throws MalformedURLException {
+    public void init(Properties properties) throws MalformedURLException {
         this.properties = properties;
+        var browser = properties.getProperty("browser");
         if (driver == null) {
             if ("firefox".equals(browser)) {
                 driver = new FirefoxDriver();
@@ -25,15 +24,7 @@ public class ApplicationManager {
             } else {
                 throw new IllegalArgumentException(String.format("Unknown browser: %s", browser));
             }
-            driver.manage().timeouts().implicitlyWait(Duration.ofMillis(1000));
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
         }
-    }
-
-    public LoginHelper session() {
-        if (session == null) {
-            session = new LoginHelper(this);
-        }
-        return session;
     }
 }

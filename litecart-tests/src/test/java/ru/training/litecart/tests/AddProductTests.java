@@ -128,7 +128,7 @@ public class AddProductTests extends TestBase {
                 "18");
 
         // логинимся
-        app.session().adminLogin("admin", "admin");
+        adminLogin("admin", "admin");
         // кликаем на разделе Catalog в меню
         app.driver.findElement(By.cssSelector("#app- a[href*='app=catalog']")).click();
         // кликаем на кнопке Add New Product

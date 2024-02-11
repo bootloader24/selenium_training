@@ -26,7 +26,7 @@ public class MenuTests extends TestBase {
 
     @Test
     public void menuTest() {
-        app.session().adminLogin("admin", "admin");
+       adminLogin("admin", "admin");
 
         List<WebElement> menuItems = getMenuItems(); // получаем список пунктов меню
         for (int menuItemNum = 0; menuItemNum < menuItems.size(); menuItemNum++) { // цикл прокликивания пунктов меню

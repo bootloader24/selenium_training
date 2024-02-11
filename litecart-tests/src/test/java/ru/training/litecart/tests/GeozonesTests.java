@@ -12,7 +12,7 @@ public class GeozonesTests extends TestBase {
 
     @Test
     void geozonesSortingTest() {
-        app.session().adminLogin("admin", "admin");
+        adminLogin("admin", "admin");
         app.driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
 
         // получаем элементы строк из таблицы со странами:

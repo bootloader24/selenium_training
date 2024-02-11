@@ -49,7 +49,7 @@ public class CountryTests extends TestBase {
 
     @Test
     void CountriesAndGeozonesSortingTest() {
-        app.session().adminLogin("admin", "admin");
+        adminLogin("admin", "admin");
         app.driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
 
         var tableRows = app.driver.findElements(By.className("row"));
