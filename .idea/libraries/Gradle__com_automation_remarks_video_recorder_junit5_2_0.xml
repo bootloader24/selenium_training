@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.automation-remarks:video-recorder-junit5:2.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.automation-remarks" artifactId="video-recorder-junit5" version="2.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.automation-remarks/video-recorder-junit5/2.0/45fd384823967b8f3cb154f1a2717b7b46029c70/video-recorder-junit5-2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.automation-remarks/video-recorder-junit5/2.0/93815b9c638a64604856d7bc96c358b3f03ee19f/video-recorder-junit5-2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,9 +1,12 @@
 package ru.training.selenium;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.*;
+import com.automation.remarks.junit5.Video;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.HasCapabilities;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -13,7 +16,6 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -58,7 +60,7 @@ public class MyFirstTest {
         } else {
             if ("firefox".equals(browser)) {
                 FirefoxOptions options = new FirefoxOptions();
-                options.addArguments("-devtools");
+                //options.addArguments("-devtools");
                 //options.setCapability("unexpectedAlertBehaviour", "dismiss");
                 if (seleniumServer != null) {
                     driver = new RemoteWebDriver(new URL(seleniumServer), options);
@@ -139,6 +141,7 @@ public class MyFirstTest {
     }
 
     @Test
+    @Video
     public void myThirdTest() {
         driver.get("https://google.ru");
         driver.findElement(By.name("q")).sendKeys("selenium");
