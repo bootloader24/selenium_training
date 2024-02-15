@@ -2,11 +2,14 @@ package ru.training.litecart.manager;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.logging.LoggingPreferences;
 
 import java.net.MalformedURLException;
 
 import java.util.Properties;
+import java.util.logging.Level;
 
 public class ApplicationManager {
 
@@ -20,7 +23,11 @@ public class ApplicationManager {
             if ("firefox".equals(browser)) {
                 driver = new FirefoxDriver();
             } else if ("chrome".equals(browser)) {
-                driver = new ChromeDriver();
+                LoggingPreferences prefs = new LoggingPreferences();
+//                prefs.enable("browser", Level.ALL);
+                ChromeOptions options = new ChromeOptions();
+                options.setCapability("goog:loggingPrefs", prefs);
+                driver = new ChromeDriver(options);
             } else {
                 throw new IllegalArgumentException(String.format("Unknown browser: %s", browser));
             }

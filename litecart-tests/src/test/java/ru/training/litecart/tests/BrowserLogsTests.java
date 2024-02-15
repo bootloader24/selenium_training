@@ -33,8 +33,11 @@ public class BrowserLogsTests extends TestBase {
             var url = app.driver.getCurrentUrl();
             // для каждого типа логов проверяем что лог пуст
             // если проверка не прошла, выводим в консоль url, тип лога и содержимое лога
-            logLevels.forEach(l -> Assertions.assertTrue(app.driver.manage().logs().get(l).getAll().isEmpty(),
-                    String.format("URL: %s\nLog type: %s\nLog Strings: %s", url, l, app.driver.manage().logs().get(l).getAll().toString())));
+            logLevels.forEach(l -> {
+                var logEntries = app.driver.manage().logs().get(l).getAll();
+                Assertions.assertTrue(logEntries.isEmpty(),
+                        String.format("URL: %s\nLog type: %s\nLog Strings: %s", url, l, logEntries));
+            });
             // возвращаемся на страницу со списком товаров
             app.driver.findElement(By.cssSelector("button[name='cancel']")).click();
         }
