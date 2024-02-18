@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
+
 public class TestBase {
 
-    protected static ApplicationManager app;
-
+    public static ApplicationManager app;
     Duration defaultImplicityWait = Duration.ofSeconds(10);
 
     @BeforeEach
@@ -25,12 +25,8 @@ public class TestBase {
         }
     }
 
-    protected void adminLogin(String user, String password) {
-        app.driver.get(app.properties.getProperty("web.adminUrl"));
-        type(By.name("username"), user);
-        type(By.name("password"), password);
-        click(By.name("login"));
-    }
+    // методы ниже перенесены в HelperBase, но здесь пока оставлены для того, чтобы не сломались тесты,
+    // сделанные не по шаблону Page Objects
 
     protected void click(By locator) {
         app.driver.findElement(locator).click();
@@ -42,7 +38,7 @@ public class TestBase {
         app.driver.findElement(locator).sendKeys(text);
     }
 
-    boolean isElementPresent(By locator) {
+    protected boolean isElementPresent(By locator) {
         try {
             app.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
             return app.driver.findElements(locator).size() > 0;
@@ -51,12 +47,10 @@ public class TestBase {
         }
     }
 
-    boolean isElementNotPresent(By locator) {
-        try {
-            app.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-            return app.driver.findElements(locator).size() == 0;
-        } finally {
-            app.driver.manage().timeouts().implicitlyWait(defaultImplicityWait);
-        }
+    public void adminLogin(String user, String password) {
+        app.driver.get(app.properties.getProperty("web.adminUrl"));
+        type(By.name("username"), user);
+        type(By.name("password"), password);
+        click(By.name("login"));
     }
 }

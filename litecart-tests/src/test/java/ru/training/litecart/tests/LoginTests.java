@@ -3,6 +3,7 @@ package ru.training.litecart.tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import ru.training.litecart.manager.HelperBase;
 
 public class LoginTests extends TestBase {
 

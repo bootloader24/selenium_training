@@ -5,16 +5,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 
+import java.time.Duration;
 import java.util.Properties;
-import java.util.logging.Level;
 
 public class ApplicationManager {
 
     public WebDriver driver;
     public Properties properties;
+    private CustomerMainPage mainPage;
+    private CustomerProductPage productPage;
+    private CustomerCartPage cartPage;
+
 
     public void init(Properties properties) throws MalformedURLException {
         this.properties = properties;
@@ -33,5 +38,30 @@ public class ApplicationManager {
             }
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
         }
+    }
+
+    public WebDriverWait durationWait(long seconds) {
+        return new WebDriverWait(driver, Duration.ofSeconds(seconds));
+    }
+
+    public CustomerMainPage customerMainPage() {
+        if (mainPage == null) {
+            mainPage = new CustomerMainPage(this);
+        }
+        return mainPage;
+    }
+
+    public CustomerProductPage customerProductPage() {
+        if (productPage == null) {
+            productPage = new CustomerProductPage(this);
+        }
+        return productPage;
+    }
+
+    public CustomerCartPage customerCartPage() {
+        if (cartPage == null) {
+            cartPage = new CustomerCartPage(this);
+        }
+        return cartPage;
     }
 }

@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.training.litecart.manager.HelperBase;
 
 import java.time.Duration;
 
@@ -16,7 +17,7 @@ public class CartTests extends TestBase {
     void canWorkWithCart() {
         // задаём порог явного ожидания
         WebDriverWait wait = new WebDriverWait(app.driver, Duration.ofSeconds(5));
-        app.driver.get("http://localhost/litecart");
+        TestBase.app.driver.get("http://localhost/litecart");
         // в цикле трижды повторяем добавление товара в корзину
         for (int i = 1; i <= 3; i++) {
             // кликаем на элементе первого товара на главной странице
@@ -52,4 +53,5 @@ public class CartTests extends TestBase {
         // Возвращаемся на домашнюю страницу
         app.driver.findElement(By.cssSelector("#site-menu li.general-0")).click();
     }
+
 }
