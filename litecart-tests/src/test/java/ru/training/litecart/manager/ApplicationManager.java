@@ -1,9 +1,11 @@
 package ru.training.litecart.manager;
 
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -24,14 +26,28 @@ public class ApplicationManager {
     public void init(Properties properties) throws MalformedURLException {
         this.properties = properties;
         var browser = properties.getProperty("browser");
+        var proxyUrl = properties.getProperty("proxy.url");
         if (driver == null) {
             if ("firefox".equals(browser)) {
-                driver = new FirefoxDriver();
+                FirefoxOptions options = new FirefoxOptions();
+                if (proxyUrl != null) {
+                    Proxy proxy = new Proxy();
+                    proxy.setHttpProxy(proxyUrl);
+                    options.setProxy(proxy);
+                    options.addPreference("network.proxy.allow_hijacking_localhost", true); // to proxying local
+                }
+                driver = new FirefoxDriver(options);
             } else if ("chrome".equals(browser)) {
                 LoggingPreferences prefs = new LoggingPreferences();
 //                prefs.enable("browser", Level.ALL);
                 ChromeOptions options = new ChromeOptions();
                 options.setCapability("goog:loggingPrefs", prefs);
+                if (proxyUrl != null) {
+                    Proxy proxy = new Proxy();
+                    proxy.setHttpProxy(proxyUrl);
+                    proxy.setNoProxy("<-loopback>"); // to proxying local
+                    options.setProxy(proxy);
+                }
                 driver = new ChromeDriver(options);
             } else {
                 throw new IllegalArgumentException(String.format("Unknown browser: %s", browser));

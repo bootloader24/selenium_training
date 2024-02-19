@@ -17,7 +17,7 @@ public class CartTests extends TestBase {
     void canWorkWithCart() {
         // задаём порог явного ожидания
         WebDriverWait wait = new WebDriverWait(app.driver, Duration.ofSeconds(5));
-        TestBase.app.driver.get("http://localhost/litecart");
+        app.driver.get("http://localhost/litecart");
         // в цикле трижды повторяем добавление товара в корзину
         for (int i = 1; i <= 3; i++) {
             // кликаем на элементе первого товара на главной странице
